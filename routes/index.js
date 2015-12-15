@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var authCtrl = require('../controllers/auth');
 var ctrl = require('../controllers/main');
+var faker = require('../controllers/faker');
 
 /* GET home page. */
 router.get('/', authCtrl.root.get);
@@ -34,6 +35,9 @@ router.route('/doStuff').
   patch(ctrl.doStuff.patch).
   delete(ctrl.doStuff.delete).
   all(ctrl.doStuff.default);
+
+router.route('/fake').
+  get(faker.blogs.get);
 
 module.exports = router;
 

@@ -28,7 +28,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // should this be true or false?
 app.use(cors({
-  origin: ['http://localhost:5000', 'http://faetea.github.io'],
+  origin: ['http://localhost:4200', 'http://faetea.github.io'],
   credentials: true
 }));
 
