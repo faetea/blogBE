@@ -3,6 +3,7 @@
 
 var express = require('express');
 var path = require('path');
+// var favicon = require('blogBE/public/favicon.ico');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 var session = require('express-session');
@@ -22,6 +23,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
+// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // should this be true or false?
@@ -35,10 +37,10 @@ app.use(session({
   resave : false,
   saveUninitialized : false,
   store : new MongoStore({
-    url : "mongodb://localhost/blog-passport-sessions"
+    url : "mongodb://localhost/blog"
   }),
   cookie : {
-    maxAge : 1800000 // 5 minutes -- should make longer but how long?
+    maxAge : 1800000
   },
   genid : function() {
     return uuid.v4({

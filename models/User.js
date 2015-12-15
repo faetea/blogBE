@@ -1,3 +1,4 @@
+/*jshint node: true */
 'use strict';
 
 var bcrypt = require('bcrypt');
@@ -17,11 +18,11 @@ var userSchema = new Schema({
 
 userSchema.plugin(uniqueValidator);
 
-userSchema.methods.comparePassword = function(password) {
+userSchema.methods.comparePassword = function (password) {
   var self = this;
 
-  return new Promise(function(res, rej) {
-    bcrypt.compare(password, self.passwordDigest, function(err, match) {
+  return new Promise(function (res, rej) {
+    bcrypt.compare(password, self.passwordDigest, function (err, match) {
       if(err) {
         rej(err);
         return;
@@ -32,13 +33,13 @@ userSchema.methods.comparePassword = function(password) {
   });
 };
 
-userSchema.methods.setPassword = function(password) {
+userSchema.methods.setPassword = function (password) {
   // we will need to reference 'this' inside a function we create here
   var self = this;
   // create a new promise and assign it to 'saltPromise'
   var saltPromise = new Promise(function saltExec(res, rej) {
     // call method to generate a 16-byte salt for use in computing the digest
-    bcrypt.genSalt(16, function(err, salt) {
+    bcrypt.genSalt(16, function (err, salt) {
       if(err) {
         rej(err);
         return;
@@ -49,11 +50,11 @@ userSchema.methods.setPassword = function(password) {
 
   // declare 'returnedPromise' is a variable,
   // assign 'saltPromise' and call '.then' method with 'salt' function
-  var returnedPromise = saltPromise.then(function(salt) {
+  var returnedPromise = saltPromise.then(function (salt) {
     // returns a new Promise with the 'hashExec' function
     return new Promise(function hashExec(res, rej) {
       // call method to generate password-hash for use in computing the digest
-      bcrypt.hash(password, salt, function(err, digest) {
+      bcrypt.hash(password, salt, function (err, digest) {
         if(err) {
           rej(err);
           return;
@@ -62,7 +63,7 @@ userSchema.methods.setPassword = function(password) {
       });
     });
   // call '.then' method with 'digest' function
-  }).then(function(digest) {
+  }).then(function (digest) {
     // passwordDigest is in Schema
     self.passwordDigest = digest;
     return self.save();

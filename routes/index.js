@@ -5,18 +5,17 @@ var ctrl = require('../controllers/main');
 
 /* GET home page. */
 router.get('/', authCtrl.root.get);
-// or ??
 // router.route('/').
 //   get(ctrl.root.get);
 
-/**AUTH ROUTES
- *  a login route using `passport.authenticate`
- *  a register route **not using passport**
- *
- */
+/* AUTH ROUTES
+ * a login route using `passport.authenticate`
+ * a register route NOT using passport */
+
 router.route('/login').
   get(authCtrl.deny).
-  post(authCtrl.login.post);
+  post(authCtrl.login.post).
+  all(authCtrl.login.all);
 
 router.route('/logout').
   all(authCtrl.logout.all);
