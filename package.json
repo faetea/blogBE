@@ -1,0 +1,37 @@
+{
+  "name": "bucketlist-api",
+  "version": "1.1.3",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "bcrypt": "^0.8.5",
+    "body-parser": "^1.13.2",
+    "connect-mongo": "^0.8.2",
+    "debug": "^2.2.0",
+    "dotenv": "^1.2.0",
+    "express": "^4.13.1",
+    "express-session": "^1.11.3",
+    "hbs": "^3.1.0",
+    "mongoose": "^4.2.6",
+    "mongoose-unique-validator": "^0.6.1",
+    "morgan": "^1.6.1",
+    "passport": "^0.2.2",
+    "passport-local": "^1.0.0",
+    "uuid": "^2.0.1"
+  },
+  "description": "Back End Repo",
+  "main": "app.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wdi09-lovelace-squad/bucketlist-api.git"
+  },
+  "author": "faetea",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wdi09-lovelace-squad/bucketlist-api/issues"
+  },
+  "homepage": "https://github.com/wdi09-lovelace-squad/bucketlist-api#readme"
+}
