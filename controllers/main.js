@@ -1,12 +1,16 @@
+/* jshint node: true */
 'use strict';
+
+var passport = require('passport');
+var User = require('../models').model('User');
 
 var ctrl = {
     root : {
-        get : function(req, res) {
+        get : function (req, res) {
             res.json(req.session);
         },
         middleware : [
-            function(req, res, next) {
+            function (req, res, next) {
                 if(req.session) {
                     if(!req.session.previousRoutes) {
                         req.session.previousRoutes = [];
@@ -23,14 +27,14 @@ var ctrl = {
     },
     doStuff : {
         // Reads "Sun Nov 23 2025 14:02:35 GMT-0500 (EST)"
-        get : function(req, res) {
+        get : function (req, res) {
             res.json(req.session.lastPutDate || '');
         },
         // Creates Created??
-        put : function(req, res, next) {
+        put : function (req, res, next) {
             var now = new Date(Date.now());
             req.session.lastPutDate = (now).toString();
-            req.session.save(function(err) {
+            req.session.save(function (err) {
                 if(err) {
                     next(err);
                     return;
@@ -40,7 +44,7 @@ var ctrl = {
             });
         },
         // Updates OK
-        patch : function(req, res, next) {
+        patch : function (req, res, next) {
             try {
                 if(!req.session.lastPutDate) throw new Error("No date!");
                 var date = new Date(req.session.lastPutDate);
@@ -49,18 +53,18 @@ var ctrl = {
             } catch(e) {
                 return next(e);
             }
-            req.session.save(function(err) {
+            req.session.save(function (err) {
                 if(err) return next(err);  // will skip normal middlewares to first error-handling middleware
                 res.sendStatus(200);
             });
         },
         // Destroy
-        'delete' : function(req, res) {
+        'delete' : function (req, res) {
             delete req.session.lastPutDate;
             res.sendStatus(204);
         },
         // Index
-        'default' : function(err, req, res) {
+        'default' : function (err, req, res) {
             res.status(500).
                 json({
                     error : {
