@@ -1,3 +1,4 @@
+/* jshint node: true */
 'use strict';
 
 var express = require('express');
@@ -10,6 +11,7 @@ var MongoStore = require('connect-mongo')(session);
 process.env.SESSION_SECRET || require('dotenv').load();
 // require passport config file
 var passport = require('./lib/passport');
+var cors = require('cors');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -23,15 +25,20 @@ app.set('view engine', 'hbs');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // should this be true or false?
+app.use(cors({
+  origin: ['http://localhost:5000', 'http://faetea.github.io'],
+  credentials: true
+}));
+
 app.use(session({
   secret : process.env.SESSION_SECRET,
   resave : false,
   saveUninitialized : false,
   store : new MongoStore({
-    url : "mongodb://localhost/ga-passport-sessions"
+    url : "mongodb://localhost/blog-passport-sessions"
   }),
   cookie : {
-    maxAge : 300000 // 5 minutes -- should make longer but how long?
+    maxAge : 1800000 // 5 minutes -- should make longer but how long?
   },
   genid : function() {
     return uuid.v4({
