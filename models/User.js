@@ -7,13 +7,19 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 // export a mongoose model
 
+var blog = new Schema({
+  title : String,
+  description : String,
+});
+
 var userSchema = new Schema({
   userName : {
     type : String,
     unique : true,
     required : true
   },
-  passwordDigest : String
+  passwordDigest : String,
+  blogs : [blog]
 });
 
 userSchema.plugin(uniqueValidator);
