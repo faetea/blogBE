@@ -37,10 +37,13 @@ router.route('/doStuff').
   all(ctrl.doStuff.default);
 
 router.route('/blogs').
-  get(blog.actions.allBlogs).
+  get(blog.actions.myBlogs).
   post(blog.actions.createBlog).
   patch(blog.actions.editBlog).
   delete(blog.actions.trash);
+
+router.route('/public').
+  get(blog.actions.allBlogs);
 
 // router.route('/blogs:id').
 //   get(blog.actions.get);
