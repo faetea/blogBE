@@ -6,22 +6,21 @@ var Schema = mongoose.Schema;
 
 var postSchema = new Schema({
   title:  String,
-  body:   String,
-  createdAt: { type: Date },
-  hidden: Boolean,
-  author: String,
-  comments: [{ body: String, date: Date, author: String }],
-  meta: {votes: Number, favs:  Number},
+  content:   String,
+  updated_at: { type: Date, default: Date.now },
 });
 
 var blogSchema = new Schema({
   title:  String,
-  author: String,
   description: String,
+  author: Schema.ObjectId,
   posts: [postSchema],
 });
 
-module.exports = blogSchema;
+// var Blog = mongoose.model('Blog', blogSchema);
+// module.exports = Blog;
+module.exports = mongoose.model('Blog', blogSchema);
+
 
 // Finding a sub-document
 // Each document has an _id. DocumentArrays have a special id method for looking up a document by its _id.
