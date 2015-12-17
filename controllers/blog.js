@@ -3,6 +3,7 @@
 
 var passport = require('passport');
 var User = require('../models').model('User');
+var Blog = require('../models').model('Blog');
 
 var blog = {
   actions : {

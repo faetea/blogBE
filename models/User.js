@@ -5,12 +5,8 @@ var bcrypt = require('bcrypt');
 var uniqueValidator = require('mongoose-unique-validator');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-// export a mongoose model
 
-var blog = new Schema({
-  title : String,
-  description : String,
-});
+var Blog = require('./Blog');
 
 var userSchema = new Schema({
   userName : {
@@ -19,8 +15,10 @@ var userSchema = new Schema({
     required : true
   },
   passwordDigest : String,
-  blogs : [blog]
+  // blogs : [{ type: mongoose.Schema.Types.ObjectId, ref: 'Blog' }]
+  blogs : [Blog]
 });
+// An array of references to the blog objects for this user
 
 userSchema.plugin(uniqueValidator);
 
@@ -33,7 +31,6 @@ userSchema.methods.comparePassword = function (password) {
         rej(err);
         return;
       }
-
       res(match);
     });
   });

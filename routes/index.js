@@ -3,6 +3,7 @@ var router = express.Router();
 var authCtrl = require('../controllers/auth');
 var ctrl = require('../controllers/main');
 var blog = require('../controllers/blog');
+var post = require('../controllers/post');
 
 /* GET home page. */
 router.get('/', authCtrl.root.get);
@@ -29,12 +30,8 @@ router.route('/signup').
   get(authCtrl.deny).
   post(authCtrl.signup.post);
 
-router.route('/doStuff').
-  get(ctrl.doStuff.get).
-  put(ctrl.doStuff.put).
-  patch(ctrl.doStuff.patch).
-  delete(ctrl.doStuff.delete).
-  all(ctrl.doStuff.default);
+router.route('/publicBlogs').
+  get(blog.actions.allBlogs);
 
 router.route('/blogs').
   get(blog.actions.myBlogs).
@@ -42,10 +39,23 @@ router.route('/blogs').
   patch(blog.actions.editBlog).
   delete(blog.actions.trash);
 
-router.route('/public').
-  get(blog.actions.allBlogs);
+router.route('/publicPosts').
+  get(post.actions.allPosts);
+
+router.route('/posts').
+  get(post.actions.myPosts).
+  post(post.actions.createPost).
+  patch(post.actions.editPost).
+  delete(post.actions.trash);
 
 // router.route('/blogs:id').
 //   get(blog.actions.get);
+
+// router.route('/doStuff').
+//   get(ctrl.doStuff.get).
+//   put(ctrl.doStuff.put).
+//   patch(ctrl.doStuff.patch).
+//   delete(ctrl.doStuff.delete).
+//   all(ctrl.doStuff.default);
 
 module.exports = router;
