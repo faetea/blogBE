@@ -5,26 +5,13 @@ var Blog = require('../models/Blog');
 var User = require('../models').model('User');
 
 /* GET /blogs */
-// list of all blogs from all authors, no auth
+// list of all blogs from all authors, not logged in
 router.get('/', function (req, res, next) {
   Blog.find(function (err, blogs) {
     if (err) return next(err);
     res.json(blogs);
   });
 });
-
-
-/* GET /blogs/mine */
-// list of all blogs where author matches current-user
-router.get('/mine', function (req, res, next) {
-  var userID = req.session.passport.user;
-  Blog.find().where({
-    author: userID
-  }).exec().then(function (blogs) {
-    res.json(blogs);
-  });
-});
-
 
 /* POST /blogs */
 // creates a new blog object, how to make author_id current-user?
@@ -43,7 +30,6 @@ router.post('/', function (req, res, next) {
   });
 });
 
-
 /* GET /blogs/id */
 // shows specific blog
 router.get('/:id', function (req, res, next) {
@@ -61,6 +47,5 @@ router.put('/:id', function (req, res, next) {
     res.json(post);
   });
 });
-
 
 module.exports = router;
