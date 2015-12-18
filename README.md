@@ -1,21 +1,35 @@
-# bucketlist-api
+# Blog Back End Repo
 
-## Back End Repo
 
-### Team
+## Concept
 
-* Kelvin Ma - Project Lead
-* Wil Trahan - Front End Lead
-* Allie Sebastian - Back End Lead
+Building a blog engine! Your app must allow non-technical users to write blog posts. When a visitor visits your site, they should see content. When a user logs in, they should see a dashboard that lets them create and edit new posts. Blog posts should have comments.
 
-### Project Details
 
-Besides finishing WDI, you surely have one or two things you'd love to do with your life. Let's get 'em on paper! You could integrate with a third-party location-based API to allow users to search for a location or venue to add to their bucket list items.
+## User Stories
 
-Reach Goal: Add social features to your site, such as following other users. Allow users to make certain list items public, but default to private.
+### Visitor User Stories
 
-### Generate a New Express App
-- Kelvin created a git repo
-- Allie generated the express app. (`express --hbs --git --force`)
-- Allie performd the 'initial' commit. (`git add . && git commit -m 'Initial commit'`)
-- Allie installed dependencies. (`npm install`)
+As a visitor, I want to
+- browse all public blogs.  **Crud Finished**
+- select a public blog to read. **Crud Finished**
+
+### Member User Stories
+
+As a member, I want to
+- Register a new account. **Crud Finished**
+- Login to my account.  **Crud Finished**
+- Logout of my account. **Crud Finished**
+
+As a member, I want a dashboard that displays all of my existing blogs and blogposts. **Crud Finished**
+As a member, I want to
+- create a new blog.  **Crud Finished**
+- edit my blog. **Crud Finished**
+- delete my blog.
+
+As a member, I want to
+- create a new blog post. **Crud Finished**
+- edit my post.
+- delete my post.
+
+As a member, I want to leave comments on blog posts I read.

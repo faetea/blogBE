@@ -3,16 +3,31 @@
 
 var passport = require('passport');
 var User = require('../models').model('User');
+var Blog = require('../models').model('Blog');
 
 var blog = {
   actions : {
     // GET
-    // user view all their own blogs
+    // vistors can view all users blogs
     allBlogs : function (req, res) {
+      User.find().limit(30).exec().then(function (users) {
+        // var allBlogs = [];
+        // for (var i = 0; i < users.length; i++) {
+        //   for (var j = 0; j < users[i].blogs.length; j++) {
+        //     allBlogs.push(users[i].blogs[j]);
+        //   }
+        // }
+        res.json(users);
+      }).catch(console.error);
+    },
+
+    // GET
+    // user view all their own blogs
+    myBlogs : function (req, res) {
       var objID = req.session.passport.user;
       User.findById(objID).exec().then(function (user) {
-        console.log(user);
-        res.json(user);
+        console.log(user.blogs);
+        res.json(user.blogs);
       }).catch(console.error);
     },
 
