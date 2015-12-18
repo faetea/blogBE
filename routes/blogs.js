@@ -9,7 +9,7 @@ var User = require('../models').model('User');
 router.get('/', function (req, res, next) {
   Blog.find(function (err, blogs) {
     if (err) return next(err);
-    res.json(blogs);
+    res.json({blogs:blogs});
   });
 });
 
@@ -73,6 +73,33 @@ router.put('/:id', function (req, res, next) {
 //   });
 // });
 
+
+// need to show all posts of a specific blog
+// need to show single post of blog
+
+/* GET /blogs/:id/posts */
+// show a post object
+router.get('/:id/posts', function (req, res, next) {
+  var userID = req.session.passport.user;
+  User.findById(userID).exec().then(function (user) {
+    // does current-user exist
+    if (user._id == userID) {
+      Blog.findById(req.params.id).exec().then(function (blog) {
+        // does current-blog belong to current-user
+        if (blog.author == userID) {
+          // wrap -- content
+
+
+
+          // content -- wrap
+        } else { res.sendStatus(403); }
+      }).catch(console.error);
+    }
+  }).catch(console.error);
+});
+
+
+
 /* POST /blogs/:id/posts */
 // creates a new post object
 router.post('/:id/posts', function (req, res, next) {
@@ -93,8 +120,9 @@ router.post('/:id/posts', function (req, res, next) {
             }
           }, { new: true }
           ).exec().then(function (post) {
-            console.log(post.toJSON());
-            res.json(post);
+            //console.log(post.toJSON());
+            //res.json(post);
+            res.sendStatus(418);
           }).catch(console.error);
           // content -- wrap
         } else { res.sendStatus(403); }

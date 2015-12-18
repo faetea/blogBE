@@ -17,6 +17,7 @@ var cors = require('cors');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var blogs = require('./routes/blogs');
+var posts = require('./routes/posts');
 
 var app = express();
 
@@ -59,6 +60,7 @@ app.use(passport.session());
 app.use('/', routes);
 app.use('/users', users);
 app.use('/blogs', blogs);
+app.use('/posts', posts);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
