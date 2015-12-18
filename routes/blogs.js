@@ -45,10 +45,18 @@ router.put('/:id', function (req, res, next) {
   var userID = req.session.passport.user;
   req.body.author = userID;
   User.findById(userID).exec().then(function (user) {
+    // does current-user exist
     if (user._id == userID) {
-      Blog.findByIdAndUpdate(req.params.id, req.body).exec().then(function (blog) {
-        console.log('blog being updated:', blog.toJSON());
-        res.json(blog);
+      Blog.findById(req.params.id).exec().then(function (blog) {
+        // does current-blog belong to current-user
+        if (blog.author == userID) {
+          Blog.update({ _id : blog._id }, req.body ).exec().then(function (blog) {
+            console.log('blog being updated:', blog.toJSON());
+            res.json(blog);
+          }).catch(console.error);
+        } else {
+          res.sendStatus(403);
+        }
       }).catch(console.error);
     }
   }).catch(console.error);
