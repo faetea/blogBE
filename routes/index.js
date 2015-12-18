@@ -30,8 +30,8 @@ router.route('/signup').
   get(authCtrl.deny).
   post(authCtrl.signup.post);
 
-router.route('/publicBlogs').
-  get(blog.actions.allBlogs);
+// router.route('/publicBlogs').
+//   get(blog.actions.allBlogs);
 
 // router.route('/blogs').
 //   get(blog.actions.myBlogs).
@@ -39,14 +39,14 @@ router.route('/publicBlogs').
 //   patch(blog.actions.editBlog).
 //   delete(blog.actions.trash);
 
-router.route('/publicPosts').
-  get(post.actions.allPosts);
+// router.route('/publicPosts').
+//   get(post.actions.allPosts);
 
-router.route('/posts').
-  get(post.actions.myPosts).
-  post(post.actions.createPost).
-  patch(post.actions.editPost).
-  delete(post.actions.trash);
+// router.route('/posts').
+//   get(post.actions.myPosts).
+//   post(post.actions.createPost).
+//   patch(post.actions.editPost).
+//   delete(post.actions.trash);
 
 // router.route('/blogs:id').
 //   get(blog.actions.get);
