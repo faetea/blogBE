@@ -17,11 +17,4 @@ var blogSchema = new Schema({
   posts: [postSchema],
 });
 
-// var Blog = mongoose.model('Blog', blogSchema);
-// module.exports = Blog;
 module.exports = mongoose.model('Blog', blogSchema);
-
-
-// Finding a sub-document
-// Each document has an _id. DocumentArrays have a special id method for looking up a document by its _id.
-// var doc = parent.children.id(id);
