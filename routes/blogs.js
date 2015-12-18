@@ -33,19 +33,30 @@ router.post('/', function (req, res, next) {
 /* GET /blogs/id */
 // shows specific blog
 router.get('/:id', function (req, res, next) {
-  Blog.findById(req.params.id, function (err, post) {
+  Blog.findById(req.params.id, function (err, blog) {
     if (err) return next(err);
-    res.json(post);
+    res.json(blog);
   });
 });
 
 /* PUT /blogs/:id */
 // updates specific blog
 router.put('/:id', function (req, res, next) {
-  Blog.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
-    if (err) return next(err);
-    res.json(post);
-  });
+  var userID = req.session.passport.user;
+  req.body.author = userID;
+  User.findById(userID).exec().then(function (user) {
+    if (user._id == userID) {
+      Blog.findByIdAndUpdate(req.params.id, req.body).exec().then(function (blog) {
+        console.log('blog being updated:', blog.toJSON());
+        res.json(blog);
+      }).catch(console.error);
+    }
+  }).catch(console.error);
 });
 
+
 module.exports = router;
+
+
+
+
