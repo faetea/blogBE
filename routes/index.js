@@ -33,11 +33,11 @@ router.route('/signup').
 router.route('/publicBlogs').
   get(blog.actions.allBlogs);
 
-router.route('/blogs').
-  get(blog.actions.myBlogs).
-  post(blog.actions.createBlog).
-  patch(blog.actions.editBlog).
-  delete(blog.actions.trash);
+// router.route('/blogs').
+//   get(blog.actions.myBlogs).
+//   post(blog.actions.createBlog).
+//   patch(blog.actions.editBlog).
+//   delete(blog.actions.trash);
 
 router.route('/publicPosts').
   get(post.actions.allPosts);

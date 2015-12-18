@@ -15,8 +15,8 @@ var userSchema = new Schema({
     required : true
   },
   passwordDigest : String,
-  // blogs : [{ type: mongoose.Schema.Types.ObjectId, ref: 'Blog' }]
-  blogs : [Blog]
+  blogs : [{ type: mongoose.Schema.ObjectId, ref: 'Blog' }]
+  // blogs : [Blog]
 });
 // An array of references to the blog objects for this user
 
