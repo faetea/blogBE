@@ -16,7 +16,7 @@ var userSchema = new Schema({
   },
   passwordDigest : String,
   blogs : [{ type: mongoose.Schema.ObjectId, ref: 'Blog' }]
-});
+}, { minimize: false });
 // An array of references to the blog objects for this user
 
 userSchema.plugin(uniqueValidator);
