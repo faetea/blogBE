@@ -14,7 +14,7 @@ router.get('/', function (req, res, next) {
 });
 
 /* POST /blogs */
-// creates a new blog object, how to make author_id current-user?
+// creates a new blog object
 router.post('/', function (req, res, next) {
   var userID = req.session.passport.user;
   req.body.author = userID;
@@ -62,9 +62,46 @@ router.put('/:id', function (req, res, next) {
   }).catch(console.error);
 });
 
+// /* DELETE /blogs/:id */
+// router.delete('/:id', function (req, res, next) {
+//   var userID = req.session.passport.user;
+//   req.body.author = userID;
+
+//   Blog.findByIdAndRemove(req.params.id, req.body, function (err, blog) {
+//     if (err) return next(err);
+//     res.json(blog);
+//   });
+// });
+
+/* POST /blogs/:id/posts */
+// creates a new post object
+router.post('/:id/posts', function (req, res, next) {
+  var userID = req.session.passport.user;
+  User.findById(userID).exec().then(function (user) {
+    // does current-user exist
+    if (user._id == userID) {
+      Blog.findById(req.params.id).exec().then(function (blog) {
+        // does current-blog belong to current-user
+        if (blog.author == userID) {
+          // wrap -- content
+          Blog.findByIdAndUpdate(req.params.id, {
+            $push: {
+              posts: {
+                title: req.body.title,
+                content: req.body.content,
+              }
+            }
+          }, { new: true }
+          ).exec().then(function (post) {
+            console.log(post.toJSON());
+            res.json(post);
+          }).catch(console.error);
+          // content -- wrap
+        } else { res.sendStatus(403); }
+      }).catch(console.error);
+    }
+  }).catch(console.error);
+});
+
 
 module.exports = router;
-
-
-
-
