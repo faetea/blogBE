@@ -17,16 +17,23 @@ router.get('/', function (req, res, next) {
 // creates a new blog object
 router.post('/', function (req, res, next) {
   var userID = req.session.passport.user;
+  if(!userID) { //the user is not logged in
+    res.sendStatus(401);
+    return;
+  }
   req.body.author = userID;
-  Blog.create(req.body, function (err, blog) {
-    if (err) return next(err);
-    // Then push the Ref ID of the NEW Blog Obj onto the User Obj
-    User.findByIdAndUpdate(userID, {
-      $push: {
-        blogs: blog._id
-      }
-    }).exec();
-    res.json(blog);
+  User.findById(userID).exec().then(function (user) {
+    req.body.authorName = user.userName;
+    Blog.create(req.body, function (err, blog) {
+      if (err) return next(err);
+      // Then push the Ref ID of the NEW Blog Obj onto the User Obj
+      User.findByIdAndUpdate(userID, {
+        $push: {
+          blogs: blog._id
+        }
+      }).exec();
+      res.json(blog);
+    });
   });
 });
 
@@ -51,7 +58,7 @@ router.put('/:id', function (req, res, next) {
         // does current-blog belong to current-user
         if (blog.author == userID) {
           Blog.update({ _id : blog._id }, req.body ).exec().then(function (blog) {
-            console.log('blog being updated:', blog.toJSON());
+            //console.log('blog being updated:', blog.toJSON());
             res.json(blog);
           }).catch(console.error);
         } else {
@@ -97,36 +104,36 @@ router.put('/:id', function (req, res, next) {
 
 
 
-/* POST /blogs/:id/posts */
-// creates a new post object
-router.post('/:id/posts', function (req, res, next) {
-  var userID = req.session.passport.user;
-  User.findById(userID).exec().then(function (user) {
-    // does current-user exist
-    if (user._id == userID) {
-      Blog.findById(req.params.id).exec().then(function (blog) {
-        // does current-blog belong to current-user
-        if (blog.author == userID) {
-          // wrap -- content
-          Blog.findByIdAndUpdate(req.params.id, {
-            $push: {
-              posts: {
-                title: req.body.title,
-                content: req.body.content,
-              }
-            }
-          }, { new: true }
-          ).exec().then(function (post) {
-            //console.log(post.toJSON());
-            //res.json(post);
-            res.sendStatus(418);
-          }).catch(console.error);
-          // content -- wrap
-        } else { res.sendStatus(403); }
-      }).catch(console.error);
-    }
-  }).catch(console.error);
-});
+// /* POST /blogs/:id/posts */
+// // creates a new post object
+// router.post('/:id/posts', function (req, res, next) {
+//   var userID = req.session.passport.user;
+//   User.findById(userID).exec().then(function (user) {
+//     // does current-user exist
+//     if (user._id == userID) {
+//       Blog.findById(req.params.id).exec().then(function (blog) {
+//         // does current-blog belong to current-user
+//         if (blog.author == userID) {
+//           // wrap -- content
+//           Blog.findByIdAndUpdate(req.params.id, {
+//             $push: {
+//               posts: {
+//                 title: req.body.title,
+//                 content: req.body.content,
+//               }
+//             }
+//           }, { new: true }
+//           ).exec().then(function (post) {
+//             //console.log(post.toJSON());
+//             //res.json(post);
+//             res.sendStatus(418);
+//           }).catch(console.error);
+//           // content -- wrap
+//         } else { res.sendStatus(403); }
+//       }).catch(console.error);
+//     }
+//   }).catch(console.error);
+// });
 
 
 module.exports = router;
