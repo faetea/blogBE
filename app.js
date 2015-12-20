@@ -40,6 +40,7 @@ app.use(session({
   saveUninitialized : false,
   store : new MongoStore({
     url : "mongodb://localhost/blog"
+    // url : process.env.MONGOLAB_URI
   }),
   cookie : {
     maxAge : 1800000
