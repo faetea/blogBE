@@ -39,8 +39,8 @@ app.use(session({
   resave : false,
   saveUninitialized : false,
   store : new MongoStore({
-    url : "mongodb://localhost/blog"
-    // url : process.env.MONGOLAB_URI
+    // url : "mongodb://localhost/blog"
+    url : process.env.MONGOLAB_URI
   }),
   cookie : {
     maxAge : 1800000
